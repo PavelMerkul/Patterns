@@ -1,14 +1,13 @@
 package ru.netology.delivery.data;
 
 import com.github.javafaker.Faker;
-import lombok.*;
+import lombok.Value;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Random;
 
-@Data
 public class DataGenerator {
 
     private DataGenerator() {
@@ -18,17 +17,14 @@ public class DataGenerator {
         return LocalDate.now().plusDays(shift).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
-    public static String generateCity(String locale) {
-        var cities = new String[] {
-                "Москва", "Санкт-Петербург", "Иркутск", "Новосибирск", "Омск", "Кемерово", "Барнаул", "Томск", "Красноярск"
-        };
+    public static String generateCity() {
+        var cities = new String[] {"Санкт-Петербург", "Москва", "Калининград", "Казань", "Саратов"};
         return cities[new Random().nextInt(cities.length)];
-
     }
 
     public static String generateName(String locale) {
         var faker = new Faker(new Locale(locale));
-        return  faker.name().lastName() + " " + faker.name().firstName();
+        return faker.name().lastName() + " " + faker.name().firstName();
     }
 
     public static String generatePhone(String locale) {
@@ -41,31 +37,37 @@ public class DataGenerator {
         }
 
         public static UserInfo generateUser(String locale) {
-            return new UserInfo(generateCity(locale), generateName(locale), generatePhone(locale));
-
+            UserInfo userInfo;
+            userInfo = new UserInfo(generateCity(), generateName(locale), generatePhone(locale));
+            return userInfo;
         }
     }
 
     @Value
     public static class UserInfo {
+        private final String string;
         String city;
         String name;
         String phone;
 
         public UserInfo(String s, String s1, String s2) {
-
+            this.string = s;
         }
 
         public String getCity() {
-            return "";
-        }
-
-        public String getPhone() {
-            return null;
+            return city;
         }
 
         public String getName() {
-            return "";
+            return name;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public String getString() {
+            return string;
         }
     }
 }
