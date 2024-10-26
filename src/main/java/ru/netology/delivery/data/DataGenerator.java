@@ -10,6 +10,7 @@ import java.util.Random;
 
 @Data
 public class DataGenerator {
+
     private DataGenerator() {
     }
 
