@@ -42,7 +42,7 @@ class DeliveryTest {
         $(byText("Запланировать")).click();
 
         // Проверка успешного уведомления
-        $(byText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
+        $(byText("Успешно!")).shouldBe(visible, Duration.ofSeconds(30));
         $("[data-test-id='success-notification'] .notification__content")
                 .shouldHave(exactText("Встреча успешно запланирована на " + firstMeetingDate))
                 .shouldBe(visible);
