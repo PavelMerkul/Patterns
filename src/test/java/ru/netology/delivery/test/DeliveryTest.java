@@ -1,6 +1,5 @@
 package ru.netology.delivery.test;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,17 +18,21 @@ class DeliveryTest {
 
     @BeforeEach
     void setup() {
+        // Открываем страницу перед каждым тестом
         open("http://localhost:9999");
     }
 
     @Test
     @DisplayName("Should successful plan and plan meeting")
     void shouldSuccessfulPlanAndPlanMeeting() {
+        // Генерация валидного пользователя
         DataGenerator.UserInfo validUser = DataGenerator.Registration.generateUser("ru");
         int daysToAddForFirstMeeting = 4;
         String firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
         int daysToAddForSecondMeeting = 7;
         String secondMeetingDate = DataGenerator.generateDate(daysToAddForSecondMeeting);
+
+        // Заполнение формы для первой встречи
         $("[data-test-id=city] input").setValue(validUser.getCity());
         $("[data-test-id=date] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id=date] input").setValue(firstMeetingDate);
@@ -37,18 +40,26 @@ class DeliveryTest {
         $("[data-test-id=phone] input").setValue(validUser.getPhone());
         $("[data-test-id=agreement]").click();
         $(byText("Запланировать")).click();
+
+        // Проверка успешного уведомления
         $(byText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
         $("[data-test-id='success-notification'] .notification__content")
                 .shouldHave(exactText("Встреча успешно запланирована на " + firstMeetingDate))
                 .shouldBe(visible);
+
+        // Заполнение формы для второй встречи
         $("[data-test-id=date] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id=date] input").setValue(secondMeetingDate);
         $(byText("Запланировать")).click();
+
+        // Проверка уведомления о перепланировке
         $("[data-test-id='replan-notification'] .notification__content")
                 .shouldHave(exactText("У вас уже запланирована встреча на другую дату. Перепланировать?\n" +
                         "\n" +
                         "Перепланировать"))
                 .shouldBe(visible, Duration.ofSeconds(35));
+
+        // Подтверждение перепланировки
         $("[data-test-id='replan-notification'] .button").click();
         $("[data-test-id='success-notification'] .notification__content")
                 .shouldHave(exactText("Встреча успешно запланирована на " + secondMeetingDate))

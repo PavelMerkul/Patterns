@@ -18,7 +18,7 @@ public class DataGenerator {
     }
 
     public static String generateCity() {
-        var cities = new String[] {"Санкт-Петербург", "Москва", "Калининград", "Казань", "Саратов"};
+        var cities = new String[]{"Санкт-Петербург", "Москва", "Калининград", "Казань", "Саратов"};
         return cities[new Random().nextInt(cities.length)];
     }
 
@@ -36,22 +36,24 @@ public class DataGenerator {
         private Registration() {
         }
 
-        public static UserInfo generateUser(String locale) {
-            UserInfo userInfo;
-            userInfo = new UserInfo(generateCity(), generateName(locale), generatePhone(locale));
-            return userInfo;
+        public static UserInfo generateUser (String locale) {
+            String city = generateCity();
+            String name = generateName(locale);
+            String phone = generatePhone(locale);
+            return new UserInfo(city, name, phone);
         }
     }
 
     @Value
     public static class UserInfo {
-        private final String string;
         String city;
         String name;
         String phone;
 
-        public UserInfo(String s, String s1, String s2) {
-            this.string = s;
+        public UserInfo(String city, String name, String phone) {
+            this.city = city;
+            this.name = name;
+            this.phone = phone;
         }
 
         public String getCity() {
@@ -64,10 +66,6 @@ public class DataGenerator {
 
         public String getPhone() {
             return phone;
-        }
-
-        public String getString() {
-            return string;
         }
     }
 }
