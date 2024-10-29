@@ -41,7 +41,8 @@ public class DataGenerator {
         }
 
         public static UserInfo generateUser(String locale) {
-            UserInfo userInfo = new UserInfo(generateCity(locale), generateName(locale), generatePhone(locale));
+            UserInfo userInfo;
+            userInfo = new UserInfo(generateCity(locale), generateName(locale), generatePhone(locale));
             return userInfo;
 
         }
@@ -53,8 +54,11 @@ public class DataGenerator {
         String name;
         String phone;
 
-        public UserInfo(String s, String s1, String s2) {
-
+        public UserInfo(String city, String name, String phone) {
+            this.city = city;
+            this.name = name;
+            this.phone = phone;
         }
     }
+
 }
