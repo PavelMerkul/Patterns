@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Random;
 
-@Data
 public class DataGenerator {
     private DataGenerator() {
     }
@@ -54,11 +53,6 @@ public class DataGenerator {
         String name;
         String phone;
 
-        public UserInfo(String city, String name, String phone) {
-            this.city = city;
-            this.name = name;
-            this.phone = phone;
-        }
     }
 
 }
